@@ -1,0 +1,35 @@
+{% extends 'layout.twig' %}
+
+{% block title %}Utilisateurs{% endblock %}
+
+{% block content %}
+    <h1>Utilisateurs</h1>
+    <p>Exemple de parcours de liste accessible après authentification.</p>
+
+    {% if users is empty %}
+        <p>Aucun utilisateur.</p>
+    {% else %}
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nom d'utilisateur</th>
+                    <th>Email</th>
+                    <th>Créé le</th>
+                    <th>Mis à jour le</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for user in users %}
+                    <tr>
+                        <td>{{ user.id }}</td>
+                        <td>{{ user.username }}</td>
+                        <td>{{ user.email }}</td>
+                        <td>{{ user.created_at }}</td>
+                        <td>{{ user.updated_at }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}

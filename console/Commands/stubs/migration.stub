@@ -1,0 +1,29 @@
+<?php
+
+declare(strict_types=1);
+
+use PDO;
+
+/**
+ * Migration générée par : php framework make:migration <nom>
+ * up()   = appliquer le changement (CREATE, ALTER, INSERT…)
+ * down() = l’annuler (DROP, ALTER inverse…)
+ * SQL brut uniquement — pas d’ORM.
+ */
+return new class {
+    public function up(PDO $pdo): void
+    {
+        $pdo->exec('
+            CREATE TABLE `exemple` (
+                `id` INT UNSIGNED AUTO_INCREMENT PRIMARY KEY,
+                `titre` VARCHAR(255) NOT NULL,
+                `created_at` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4
+        ');
+    }
+
+    public function down(PDO $pdo): void
+    {
+        $pdo->exec('DROP TABLE IF EXISTS `exemple`');
+    }
+};

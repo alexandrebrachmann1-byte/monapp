@@ -1,0 +1,9 @@
+{% extends 'layout.twig' %}
+
+{% block title %}Page introuvable{% endblock %}
+
+{% block content %}
+    <h1>404</h1>
+    <p>Aucune route ne correspond à <code>{{ path }}</code>.</p>
+    <p><a href="{{ url('/') }}">Retour à l'accueil</a></p>
+{% endblock %}

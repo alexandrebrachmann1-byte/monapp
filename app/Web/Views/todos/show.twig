@@ -1,0 +1,13 @@
+{% extends 'layout.twig' %}
+
+{% block title %}{{ todo.title }}{% endblock %}
+
+{% block content %}
+    <h1>{{ todo.title }}</h1>
+    <p>Terminée : {{ todo.is_done ? 'oui' : 'non' }}</p>
+    <p>Créée le : {{ todo.created_at }}</p>
+    <p>
+        <a class="button" href="{{ url('/todos/' ~ todo.id ~ '/edit') }}">Modifier</a>
+        <a href="{{ url('/todos') }}">Retour à la liste</a>
+    </p>
+{% endblock %}

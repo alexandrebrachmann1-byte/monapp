@@ -1,0 +1,24 @@
+{% extends 'layout.twig' %}
+
+{% block title %}Inscription{% endblock %}
+
+{% block content %}
+    <h1>Inscription</h1>
+    <form method="post" action="{{ url('/register') }}">
+        {{ csrf_field() }}
+        <label>
+            Nom d'utilisateur
+            <input type="text" name="username" required value="{{ old.username ?? '' }}">
+        </label>
+        <label>
+            Email
+            <input type="email" name="email" required value="{{ old.email ?? '' }}">
+        </label>
+        <label>
+            Mot de passe
+            <input type="password" name="password" required>
+        </label>
+        <button type="submit">Créer le compte</button>
+        <a href="{{ url('/login') }}">Déjà inscrit</a>
+    </form>
+{% endblock %}

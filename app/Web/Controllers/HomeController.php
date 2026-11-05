@@ -1,0 +1,16 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Web\Controllers;
+
+use Core\Controller;
+use Core\Request;
+
+final class HomeController extends Controller
+{
+    public function index(Request $request): void
+    {
+        $this->view('home/index.twig');
+    }
+}

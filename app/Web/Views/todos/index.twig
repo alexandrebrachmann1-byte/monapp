@@ -1,0 +1,39 @@
+{% extends 'layout.twig' %}
+
+{% block title %}Tâches{% endblock %}
+
+{% block content %}
+    <h1>Tâches</h1>
+    <p><a class="button" href="{{ url('/todos/create') }}">Nouvelle tâche</a></p>
+
+    {% if todos is empty %}
+        <p>Aucune tâche.</p>
+    {% else %}
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Titre</th>
+                    <th>Fait</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for todo in todos %}
+                    <tr>
+                        <td>{{ todo.id }}</td>
+                        <td><a href="{{ url('/todos/' ~ todo.id) }}">{{ todo.title }}</a></td>
+                        <td>{{ todo.is_done ? 'oui' : 'non' }}</td>
+                        <td>
+                            <a href="{{ url('/todos/' ~ todo.id ~ '/edit') }}">Modifier</a>
+                            <form class="inline" method="post" action="{{ url('/todos/' ~ todo.id ~ '/delete') }}" onsubmit="return confirm('Supprimer ?');">
+                                {{ csrf_field() }}
+                                <button type="submit">Supprimer</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+{% endblock %}

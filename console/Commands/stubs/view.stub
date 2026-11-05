@@ -1,0 +1,7 @@
+{% extends 'layout.twig' %}
+
+{% block title %}{{title}}{% endblock %}
+
+{% block content %}
+    <p>Nouveau template.</p>
+{% endblock %}

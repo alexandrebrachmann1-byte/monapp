@@ -1,0 +1,8 @@
+# Redirige tout vers public/ (installation XAMPP dans htdocs/framework).
+# Les fichiers réels (ex. si on appelle /public/assets/...) ne sont pas réécrits.
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteRule ^$ public/ [L]
+    RewriteRule ^((?!public/).*)$ public/$1 [L]
+</IfModule>

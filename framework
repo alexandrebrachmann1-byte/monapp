@@ -1,0 +1,65 @@
+#!/usr/bin/env php
+<?php
+
+/**
+ * Point d'entrée CLI : php framework <commande>
+ *
+ * Ce n'est pas le front HTTP. Mapping explicite nom → classe (pas d'autodiscovery).
+ * Les make:* recopient un stub depuis console/Commands/stubs/.
+ */
+
+declare(strict_types=1);
+
+define('BASE_PATH', __DIR__);
+
+require BASE_PATH . '/vendor/autoload.php';
+
+use Console\Commands\MakeControllerCommand;
+use Console\Commands\MakeDtoCommand;
+use Console\Commands\MakeMiddlewareCommand;
+use Console\Commands\MakeMigrationCommand;
+use Console\Commands\MakeModelCommand;
+use Console\Commands\MakeViewCommand;
+use Console\Commands\MigrateCommand;
+use Core\Env;
+
+if (is_file(BASE_PATH . '/.env')) {
+    Env::load(BASE_PATH . '/.env');
+}
+
+/** @var array<string, class-string> $commands */
+$commands = [
+    'make:controller' => MakeControllerCommand::class,
+    'make:model' => MakeModelCommand::class,
+    'make:dto' => MakeDtoCommand::class,
+    'make:view' => MakeViewCommand::class,
+    'make:migration' => MakeMigrationCommand::class,
+    'make:middleware' => MakeMiddlewareCommand::class,
+    'migrate' => MigrateCommand::class,
+];
+
+$argv = $_SERVER['argv'] ?? [];
+array_shift($argv);
+$name = $argv[0] ?? 'help';
+$arguments = array_slice($argv, 1);
+
+if ($name === 'help' || $name === '--help' || $name === '-h') {
+    echo "Commandes disponibles :\n";
+    foreach (array_keys($commands) as $command) {
+        echo "  php framework {$command}\n";
+    }
+    exit(0);
+}
+
+if (!isset($commands[$name])) {
+    fwrite(STDERR, "Commande inconnue : {$name}\n");
+    exit(1);
+}
+
+try {
+    $command = new $commands[$name]();
+    exit($command->handle($arguments));
+} catch (Throwable $e) {
+    fwrite(STDERR, $e->getMessage() . PHP_EOL);
+    exit(1);
+}

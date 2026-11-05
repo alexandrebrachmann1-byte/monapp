@@ -1,0 +1,14 @@
+{% extends 'layout.twig' %}
+
+{% block title %}Ajouter une team{% endblock %}
+
+{% block content %}
+
+<form method="post" action="{{ url('/teams') }}">
+     {{ csrf_field() }}
+    <label for="name">Nom d'équipe</label>
+    <input type="text" placeholder="La team" id="nameTeam" name="name">
+    <button>Creer la team</button>
+</form>
+
+{% endblock %}

@@ -1,0 +1,21 @@
+{% extends 'layout.twig' %}
+
+{% block title %}{{ todo ? 'Modifier' : 'Créer' }} une tâche{% endblock %}
+
+{% block content %}
+    <h1>{{ todo ? 'Modifier' : 'Créer' }} une tâche</h1>
+
+    <form method="post" action="{{ action }}">
+        {{ csrf_field() }}
+        <label>
+            Titre
+            <input type="text" name="title" required value="{{ old.title ?? todo.title ?? '' }}">
+        </label>
+        <label>
+            <input type="checkbox" name="is_done" value="1"{% if todo and todo.is_done %} checked{% endif %}>
+            Terminée
+        </label>
+        <button type="submit">Enregistrer</button>
+        <a href="{{ url('/todos') }}">Annuler</a>
+    </form>
+{% endblock %}

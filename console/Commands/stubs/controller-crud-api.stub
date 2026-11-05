@@ -1,0 +1,52 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Api\Controllers;
+
+use App\DTO\{{model}}DTO;
+use App\Models\{{model}};
+use Core\ApiController;
+use Core\Request;
+
+final class {{class}} extends ApiController
+{
+    public function index(Request $request): void
+    {
+        $data = [];
+        foreach ({{model}}::all() as $row) {
+            $data[] = {{model}}DTO::fromArray($row);
+        }
+        $this->json(['data' => $data]);
+    }
+
+    public function show(Request $request): void
+    {
+        $row = {{model}}::find((int) $request->param('id'));
+        if ($row === null) {
+            $this->error('Introuvable', 404);
+
+            return;
+        }
+        $this->json(['data' => {{model}}DTO::fromArray($row)]);
+    }
+
+    public function store(Request $request): void
+    {
+        $id = {{model}}::insert($request->all());
+        $this->json(['data' => {{model}}DTO::fromArray({{model}}::find($id))], 201);
+    }
+
+    public function update(Request $request): void
+    {
+        $id = (int) $request->param('id');
+        {{model}}::update($id, $request->all());
+        $this->json(['data' => {{model}}DTO::fromArray({{model}}::find($id))]);
+    }
+
+    public function destroy(Request $request): void
+    {
+        {{model}}::delete((int) $request->param('id'));
+        $this->json(['deleted' => true]);
+    }
+}

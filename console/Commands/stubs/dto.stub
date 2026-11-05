@@ -1,0 +1,16 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\DTO;
+
+use Core\DTO;
+
+/**
+ * DTO : propriétés publiques = contrat.
+ * Entrée (formulaire/JSON) : champs à valider.
+ * Sortie (API/Twig) : champs exposés — ne pas y mettre password_hash, etc.
+ */
+final class {{class}} extends DTO
+{
+{{properties}}}

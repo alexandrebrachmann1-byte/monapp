@@ -1,0 +1,73 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Web\Controllers;
+
+use App\DTO\{{model}}DTO;
+use App\Models\{{model}};
+use Core\Controller;
+use Core\Request;
+
+final class {{class}} extends Controller
+{
+    public function index(Request $request): void
+    {
+        $rows = {{model}}::all();
+        $this->view('{{table}}/index.twig', ['{{table}}' => $rows]);
+    }
+
+    public function create(Request $request): void
+    {
+        $this->view('{{table}}/form.twig', [
+            'row' => null,
+            'action' => $this->view->url('/{{table}}'),
+        ]);
+    }
+
+    public function store(Request $request): void
+    {
+        {{model}}::insert($request->all());
+        $this->session->flash('success', 'Enregistrement créé.');
+        $this->redirect('/{{table}}');
+    }
+
+    public function show(Request $request): void
+    {
+        $row = {{model}}::find((int) $request->param('id'));
+        if ($row === null) {
+            $this->session->flash('error', 'Introuvable.');
+            $this->redirect('/{{table}}');
+        }
+        $this->view('{{table}}/show.twig', ['row' => {{model}}DTO::fromArray($row)]);
+    }
+
+    public function edit(Request $request): void
+    {
+        $row = {{model}}::find((int) $request->param('id'));
+        if ($row === null) {
+            $this->session->flash('error', 'Introuvable.');
+            $this->redirect('/{{table}}');
+        }
+        $output = {{model}}DTO::fromArray($row);
+        $this->view('{{table}}/form.twig', [
+            'row' => $output,
+            'action' => $this->view->url('/{{table}}/' . $output->id),
+        ]);
+    }
+
+    public function update(Request $request): void
+    {
+        $id = (int) $request->param('id');
+        {{model}}::update($id, $request->all());
+        $this->session->flash('success', 'Enregistrement mis à jour.');
+        $this->redirect('/{{table}}/' . $id);
+    }
+
+    public function destroy(Request $request): void
+    {
+        {{model}}::delete((int) $request->param('id'));
+        $this->session->flash('success', 'Enregistrement supprimé.');
+        $this->redirect('/{{table}}');
+    }
+}

@@ -1,0 +1,48 @@
+{# Layout commun. url() et asset() préfixent APP_BASE_PATH (XAMPP). csrf_field() = jeton anti-CSRF. #}
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{% block title %}Framework MVC{% endblock %}</title>
+    <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+</head>
+<body>
+    <header class="site-header">
+        <a class="logo" href="{{ url('/') }}">MVC pédagogique</a>
+        <nav>
+            <a href="{{ url('/') }}">Accueil</a>
+            {% if auth_user %}
+                <a href="{{ url('/users') }}">Utilisateurs</a>
+                <a href="{{ url('/todos') }}">Tâches</a>
+                <span>{{ auth_user.username }}</span>
+                <form class="inline" method="post" action="{{ url('/logout') }}">
+                    {{ csrf_field() }}
+                    <button type="submit">Déconnexion</button>
+                </form>
+            {% else %}
+                <a href="{{ url('/login') }}">Connexion</a>
+                <a href="{{ url('/register') }}">Inscription</a>
+            {% endif %}
+        </nav>
+    </header>
+
+    <main class="container">
+        {% if flash_success %}
+            <p class="flash flash-success">{{ flash_success }}</p>
+        {% endif %}
+        {% if flash_error %}
+            <p class="flash flash-error">{{ flash_error }}</p>
+        {% endif %}
+        {% if flash_errors %}
+            <ul class="flash flash-error">
+                {% for field, message in flash_errors %}
+                    <li>{{ field }} : {{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+
+        {% block content %}{% endblock %}
+    </main>
+</body>
+</html>

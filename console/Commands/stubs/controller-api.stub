@@ -1,0 +1,16 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Api\Controllers;
+
+use Core\ApiController;
+use Core\Request;
+
+final class {{class}} extends ApiController
+{
+    public function index(Request $request): void
+    {
+        $this->json(['data' => []]);
+    }
+}
