@@ -3,12 +3,16 @@
 {% block title %}Ajouter une team{% endblock %}
 
 {% block content %}
+    <h1>Creer une equipe</h1>
 
-<form method="post" action="{{ url('/teams') }}">
-     {{ csrf_field() }}
-    <label for="name">Nom d'équipe</label>
-    <input type="text" placeholder="La team" id="nameTeam" name="name">
-    <button>Creer la team</button>
-</form>
+    <form method="post" action="{{ action }}">
+        {{ csrf_field() }}
+        <label>
+            Nom de l'equipe
+            <input type="text" name="name" required value="{{ old.name ?? '' }}">
+        </label>
+        <button type="submit">Creer l'equipe</button>
+        <a href="{{ url('/teams') }}">Annuler</a>
+    </form>
 
 {% endblock %}

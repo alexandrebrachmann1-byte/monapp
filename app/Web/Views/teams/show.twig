@@ -1,0 +1,62 @@
+{% extends 'layout.twig' %}
+
+{% block title %}Equipe {{ team.name }}{% endblock %}
+
+{% block content %}
+    <h1>Equipe : {{ team.name }}</h1>
+    <p><a href="{{ url('/teams') }}">Retour aux equipes</a></p>
+
+    <h2>Membres</h2>
+    {% if members is empty %}
+        <p>Aucun membre dans cette equipe.</p>
+    {% else %}
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Nom d'utilisateur</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th>Metier</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for member in members %}
+                    <tr>
+                        <td>{{ member.id }}</td>
+                        <td>{{ member.username }}</td>
+                        <td>{{ member.email }}</td>
+                        <td>{{ member.role ?? '-' }}</td>
+                        <td>{{ member.job ?? '-' }}</td>
+                        <td>
+                            <form class="inline" method="post" action="{{ url('/teams/' ~ team.id ~ '/members/' ~ member.id ~ '/delete') }}">
+                                {{ csrf_field() }}
+                                <button type="submit">Retirer</button>
+                            </form>
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+    <h2>Ajouter un utilisateur</h2>
+    {% if available_users is empty %}
+        <p>Tous les utilisateurs sont deja dans cette equipe.</p>
+    {% else %}
+        <form method="post" action="{{ url('/teams/' ~ team.id ~ '/members') }}">
+            {{ csrf_field() }}
+            <label>
+                Utilisateur
+                <select name="user_id" required>
+                    <option value="">Choisir un utilisateur</option>
+                    {% for user in available_users %}
+                        <option value="{{ user.id }}">{{ user.username }} ({{ user.email }})</option>
+                    {% endfor %}
+                </select>
+            </label>
+            <button type="submit">Ajouter a l'equipe</button>
+        </form>
+    {% endif %}
+{% endblock %}

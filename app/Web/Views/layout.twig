@@ -14,6 +14,7 @@
             <a href="{{ url('/') }}">Accueil</a>
             {% if auth_user %}
                 <a href="{{ url('/users') }}">Utilisateurs</a>
+                <a href="{{ url('/teams') }}">Equipes</a>
                 <a href="{{ url('/todos') }}">Tâches</a>
                 <span>{{ auth_user.username }}</span>
                 <form class="inline" method="post" action="{{ url('/logout') }}">
